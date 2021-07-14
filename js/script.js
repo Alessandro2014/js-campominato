@@ -8,7 +8,7 @@ Ogni  volta che l'utente sceglie un numero che non è presente tra le bombe, gua
 Se il numero scelto dall'utente è presente tra i numeri bomba, la partita termina.
 Quando la partita termina, comunichiamo all'utente il suo punteggio.
 
-    INIZIO PARTITA
+    PREPARAZIONE
 1 CREARE ARRAY PER CONTENERE LE BOMBE
 2 CREARE ARRAY VUOTO PER CONTENERE I NUMERI INSERITI DALL'UTENTE
 3 CREO CICLO WHILE PER INSERIRE 16 NUMERI RANDOM NELL'ARREY
@@ -41,17 +41,37 @@ while (bombsList.length < 16) {
         bombsList.push(randomBombs);
     }
 }
+
+/*
+// SCELTA LIVELLO DI DIFFICOLTA'
+var choiceDifficulty = parseInt(prompt("Scegli un livello di difficolta tra 0(facile) e 2(difficile"));
+
+if (choiceDifficulty == 0) {
+    var camp = 15;
+} else if (choiceDifficulty == 1) {
+    var camp = 10;
+}   else {
+    var camp = 5;
+}
+*/
+
+var camp = 100;
+var bombs = 16;
+var userNumber = (camp - bombs)
+
+
 console.table(bombsList);
+
 
 // CHIEDERE NUMERO ALL'UTENTE
 var i = 1;
-while ((i < 10) && (!bombsList.includes(userChoice))){
+while ((i < userNumber) && (!bombsList.includes(userChoice))){
     var userChoice = parseInt(prompt("Inserisci un numero"));
         while ((userChoice > 100) || (userChoice < 1) || (userChoiceList.includes(userChoice))) {
         alert("Errore, numero non valido");
         userChoice = parseInt(prompt("Inserisci un numero"));
     }   if ((bombsList.includes(userChoice))) {
-        campoMinato.innerHTML = "Hai perso! punti totalizzati: " + userChoiceList.length;
+        campoMinato.innerHTML = "BOOOOM Hai perso! punti totalizzati: " + userChoiceList.length;
     }  else {
         userChoiceList.push(userChoice);
         alert("HAI GUADAGNATO " + i + " PUNTI");
