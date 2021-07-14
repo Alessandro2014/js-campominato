@@ -7,10 +7,22 @@ Ogni  volta che l'utente sceglie un numero che non è presente tra le bombe, gua
 Se il numero scelto dall'utente è presente tra i numeri bomba, la partita termina.
 Quando la partita termina, comunichiamo all'utente il suo punteggio.
 
+    INIZIO PARTITA
 1 CREARE ARRAY PER CONTENERE LE BOMBE
 2 CREARE ARRAY VUOTO PER CONTENERE I NUMERI INSERITI DALL'UTENTE
 3 CREO CICLO WHILE PER INSERIRE 16 NUMERI RANDOM NELL'ARREY
 4 CREARE FUNZIONE PER NUMERI RANDOM
+
+    INIZIO GIOCO
+5 CHIEDERE NUMERO ALL'UTENTE 
+6 VERIFICA CHE IL NUMERO NON SIA GIA' PRESENTE TRA LE BOMBE
+7 RISPOSTA DI PARTITA TERMINATA SE SI TROVA NELLE BOMBE
+8 ALERT PER AVVISARE CHE IL NUMERO ERA GIA' STATO SCELTO
+9 SE IL NUMERO NON E' TRA LE BOMBE AGGIUTA ALL'ARRAY
+
+    FINE PARTITA
+10 MESSAGGIO DI PARTITA TERMINATA
+11 STAMPA PUNTEGGIO DAL NUMERO DI ELEMENTI NELL'ARRAY DELL'UTENTE
 */
 
 //ARRAY PER CONTENERE LE BOMBE
@@ -18,7 +30,7 @@ var bombsList = [];
 // console.table("numero - " + bombsList);
 
 //ARRAY VUOTO PER CONTENERE I NUMERI INSERITI DALL'UTENTE
-var userChoice = [];
+var userChoiceList = [];
 
 //CICLO WHILE PER INSERIRE 16 NUMERI RANDOM NELL'ARREY
 
@@ -31,3 +43,21 @@ while (bombsList.length < 16) {
     }
 }
 console.table(bombsList);
+
+// CHIEDERE NUMERO ALL'UTENTE
+
+var i = 0;
+while (i < 10){
+    var userChoice = parseInt(prompt("Inserisci un numero"));
+    while ((userChoice > 100) || (userChoiceList.includes(userChoice))) {
+        alert("Errore numero non valido");
+        userChoice = parseInt(prompt("Inserisci un numero"));
+    }  if (bombsList.includes(userChoice)) {
+        alert("hai perso");
+        console.log("hai totalizzato" + userChoiceList.length + "punti");
+    }   else {
+        userChoiceList.push(userChoice);
+    }
+    i++
+}
+console.table(userChoiceList);
