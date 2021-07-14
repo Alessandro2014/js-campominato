@@ -26,6 +26,7 @@ Quando la partita termina, comunichiamo all'utente il suo punteggio.
 11 STAMPA PUNTEGGIO DAL NUMERO DI ELEMENTI NELL'ARRAY DELL'UTENTE
 */
 
+var campoMinato = document.getElementById("campo-minato");
 //ARRAY PER CONTENERE LE BOMBE
 var bombsList = [];
 
@@ -33,10 +34,8 @@ var bombsList = [];
 var userChoiceList = [];
 
 //CICLO WHILE PER INSERIRE 16 NUMERI RANDOM NELL'ARREY
-
 while (bombsList.length < 16) {
-    var randomBombs = Math.floor(Math.random() * 100) + 1;
-
+    var randomBombs = randomNumber(1, 100);
     // VERIFICO CHE NELLA LISTA NON SIANO PRESENTI QUEI NUMERI
     if (!bombsList.includes(randomBombs)) {
         bombsList.push(randomBombs);
@@ -45,20 +44,25 @@ while (bombsList.length < 16) {
 console.table(bombsList);
 
 // CHIEDERE NUMERO ALL'UTENTE
-
 var i = 1;
 while ((i < 10) && (!bombsList.includes(userChoice))){
     var userChoice = parseInt(prompt("Inserisci un numero"));
-        while ((userChoice > 100) || (userChoiceList.includes(userChoice))) {
+        while ((userChoice > 100) || (userChoice < 1) || (userChoiceList.includes(userChoice))) {
         alert("Errore, numero non valido");
         userChoice = parseInt(prompt("Inserisci un numero"));
     }   if ((bombsList.includes(userChoice))) {
-        alert("hai perso");
-        console.log("hai totalizzato " + userChoiceList.length + " punti");
+        campoMinato.innerHTML = "Hai perso! punti totalizzati: " + userChoiceList.length;
     }  else {
-        alert("HAI GUADAGNATO " + i + " PUNTI");
         userChoiceList.push(userChoice);
+        alert("HAI GUADAGNATO " + i + " PUNTI");
+        campoMinato.innerHTML = "Hai VINTO! punti totalizzati: " + userChoiceList.length;
     }
     i++
 }
 console.table(userChoiceList);
+
+// UTILS
+function randomNumber(min, max) {
+    max++;
+    return Math.floor(Math.random() * (max - min) + min);
+  }
