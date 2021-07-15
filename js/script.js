@@ -34,17 +34,17 @@ var bombs = 16;
 //ARRAY PER CONTENERE LE BOMBE, NUMERI INSERITI DALL'UTENTE E LIVELLO DIFFICOLTA' 
 var bombsList = [];
 var userChoiceList = [];
-var levels = ["facile", "medio", "difficile"];
+// var levels = ["facile", "medio", "difficile"];
 
 // SCELTA LIVELLO DI DIFFICOLTA'
 var choiceLevel = prompt("Scegli un livello di difficolta tra: facile / medio / difficile");
 
-choiceLevel = choiceLevel.toLowerCase().trim();
 while (!choiceLevel){
     choiceLevel = prompt("Scegli un livello di difficolta tra: facile / medio / difficile");
 }
+choiceLevel = choiceLevel.toLowerCase().trim();
 
-switch (choiceLevel.toLowerCase().trim()){
+switch (choiceLevel){
     case "difficile":
     camp = 50;
     break;
@@ -55,7 +55,6 @@ switch (choiceLevel.toLowerCase().trim()){
     camp = 100;
 }
 
-
 //CICLO WHILE PER INSERIRE 16 NUMERI RANDOM NELL'ARREY
 while (bombsList.length < bombs) {
     var randomBombs = randomNumber(1, 100);
@@ -64,43 +63,38 @@ while (bombsList.length < bombs) {
         bombsList.push(randomBombs);
     }
 }
-
 console.table(bombsList);
 
 var playerPossibilities = (camp - bombs)
 
-// CHIEDERE NUMERO ALL'UTENTE
-while ((camp < playerPossibilities) && (!bombsList.includes(userChoice))){
-    var userChoice = parseInt(prompt("Inserisci un numero tra 1 e 100"));
-        while ((userChoice > 100) || (userChoice < 1) || (userChoiceList.includes(userChoice))) {
-        alert("Errore, numero non valido");
-        userChoice = parseInt(prompt("Inserisci un numero tra 1 e 100"));
-    }   if ((bombsList.includes(userChoice))) {
-        campoMinato.innerHTML = "BOOOOM Hai perso! punti totalizzati: " + userChoiceList.length;
-    }  else {
+// INIZIO GIOCO CON RICHIESTA NUMERO ALL'UTENTE
+var userLost = false;
+var userChoice = parseInt(prompt("Inserisci un numero tra 1 e 100"));
+while (camp.length > playerPossibilities && !userLost){
+    userChoice = parseInt(prompt("Inserisci un numero tra 1 e 100"));
+        if ((userChoice > 100) || (userChoice < 1) || (userChoiceList.includes(userChoice))) {
+            alert("Errore, numero non valido");
+    }   else  {
+        if ((bombsList.includes(userChoice))) {
+            userLost = true;
+    }   else {
         userChoiceList.push(userChoice);
-        alert("HAI GUADAGNATO " + i + " PUNTI");
-        campoMinato.innerHTML = "Hai VINTO! punti totalizzati: " + userChoiceList.length;
+        alert("HAI GUADAGNATO " + userChoice.length + " PUNTI");
     }
+  }
 }
 console.table(userChoiceList);
 
+if (userLost) {
+    campoMinato.innerHTML = "BOOOOM Hai perso! punti totalizzati: " + userChoiceList.length;
+}   else {
+    campoMinato.innerHTML = "Hai VINTO! punti totalizzati: " + userChoiceList.length;
+}
+
 // UTILS
-
-//FUNZIONE PER VERIFICARE CHE SIA UN NUMERO
+//FUNZIONE NUMERO RANDOM
 function randomNumber(min, max) {
-    max++;
-    return Math.floor(Math.random() * (max - min) + min);
-  }
-
-//FUNZIONE PER RICHIEDERE UN NUMERO
-function getUserNumber(min, max) {
-    var number;
-    do {
-        number = prompt("Inserisci un numero tra " + min + "e" + max);
-    } while (!isNumber(number) || number < min || number > max);
-
-    return parseInt(number);
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 // FUNZIONE VERIFICA SE E' UN NUMERO
@@ -111,4 +105,3 @@ function isNumber(num) {
         return true;
     }
 }
-
