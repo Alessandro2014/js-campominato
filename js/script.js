@@ -27,14 +27,38 @@ Quando la partita termina, comunichiamo all'utente il suo punteggio.
 */
 
 var campoMinato = document.getElementById("campo-minato");
-//ARRAY PER CONTENERE LE BOMBE
-var bombsList = [];
 
-//ARRAY VUOTO PER CONTENERE I NUMERI INSERITI DALL'UTENTE
+var camp;
+var bombs = 16;
+
+//ARRAY PER CONTENERE LE BOMBE, NUMERI INSERITI DALL'UTENTE E LIVELLO DIFFICOLTA' 
+var bombsList = [];
 var userChoiceList = [];
+var levels = ["facile", "medio", "difficile"];
+
+// SCELTA LIVELLO DI DIFFICOLTA'
+var choiceLevel = prompt("Scegli un livello di difficolta tra: facile / medio / difficile");
+
+choiceLevel = choiceLevel.toLowerCase().trim();
+while (!choiceLevel){
+    choiceLevel = prompt("Scegli un livello di difficolta tra: facile / medio / difficile");
+}
+
+switch (choiceLevel.toLowerCase().trim()){
+    case "difficile":
+    camp = 50;
+    break;
+    case "medio":
+    camp = 80;
+    break;
+    default:
+    camp = 100;
+}
+var playerPossibilities = (camp - bombs)
+
 
 //CICLO WHILE PER INSERIRE 16 NUMERI RANDOM NELL'ARREY
-while (bombsList.length < 16) {
+while (bombsList.length < bombs) {
     var randomBombs = randomNumber(1, 100);
     // VERIFICO CHE NELLA LISTA NON SIANO PRESENTI QUEI NUMERI
     if (!bombsList.includes(randomBombs)) {
@@ -42,34 +66,18 @@ while (bombsList.length < 16) {
     }
 }
 
-/*
-// SCELTA LIVELLO DI DIFFICOLTA'
-var choiceDifficulty = parseInt(prompt("Scegli un livello di difficolta tra 0(facile) e 2(difficile"));
 
-if (choiceDifficulty == 0) {
-    var camp = 15;
-} else if (choiceDifficulty == 1) {
-    var camp = 10;
-}   else {
-    var camp = 5;
-}
-*/
-
-var camp = 100;
-var bombs = 16;
-var userNumber = (camp - bombs)
 
 
 console.table(bombsList);
 
 
 // CHIEDERE NUMERO ALL'UTENTE
-var i = 1;
-while ((i < userNumber) && (!bombsList.includes(userChoice))){
-    var userChoice = parseInt(prompt("Inserisci un numero"));
+while ((camp < playerPossibilities) && (!bombsList.includes(userChoice))){
+    var userChoice = parseInt(prompt("Inserisci un numero tra 1 e 100"));
         while ((userChoice > 100) || (userChoice < 1) || (userChoiceList.includes(userChoice))) {
         alert("Errore, numero non valido");
-        userChoice = parseInt(prompt("Inserisci un numero"));
+        userChoice = parseInt(prompt("Inserisci un numero tra 1 e 100"));
     }   if ((bombsList.includes(userChoice))) {
         campoMinato.innerHTML = "BOOOOM Hai perso! punti totalizzati: " + userChoiceList.length;
     }  else {
@@ -77,7 +85,6 @@ while ((i < userNumber) && (!bombsList.includes(userChoice))){
         alert("HAI GUADAGNATO " + i + " PUNTI");
         campoMinato.innerHTML = "Hai VINTO! punti totalizzati: " + userChoiceList.length;
     }
-    i++
 }
 console.table(userChoiceList);
 
