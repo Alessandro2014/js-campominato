@@ -34,17 +34,15 @@ var bombs = 16;
 //ARRAY PER CONTENERE LE BOMBE, NUMERI INSERITI DALL'UTENTE E LIVELLO DIFFICOLTA' 
 var bombsList = [];
 var userChoiceList = [];
-// var levels = ["facile", "medio", "difficile"];
+var levels = ["facile", "medio", "difficile"];
 
 // SCELTA LIVELLO DI DIFFICOLTA'
-var choiceLevel = prompt("Scegli un livello di difficolta tra: facile / medio / difficile");
-
-while (!choiceLevel){
-    choiceLevel = prompt("Scegli un livello di difficolta tra: facile / medio / difficile");
+do {
+    var choiceLevel = prompt("Scegli un livello di difficolta tra: facile / medio / difficile");
 }
-choiceLevel = choiceLevel.toLowerCase().trim();
+while (!choiceLevel || !isInArray(choiceLevel.toLowerCase().trim(), levels));
 
-switch (choiceLevel){
+switch (choiceLevel.toLowerCase().trim()){
     case "difficile":
     camp = 50;
     break;
@@ -53,11 +51,12 @@ switch (choiceLevel){
     break;
     default:
     camp = 100;
+    break;
 }
 
 //CICLO WHILE PER INSERIRE 16 NUMERI RANDOM NELL'ARREY
 while (bombsList.length < bombs) {
-    var randomBombs = randomNumber(1, 100);
+    var randomBombs = randomNumber(1, camp);
     // VERIFICO CHE NELLA LISTA NON SIANO PRESENTI QUEI NUMERI
     if (!bombsList.includes(randomBombs)) {
         bombsList.push(randomBombs);
@@ -65,21 +64,20 @@ while (bombsList.length < bombs) {
 }
 console.table(bombsList);
 
-var playerPossibilities = (camp - bombs)
+var playerPossibilities = (camp - bombs);
 
 // INIZIO GIOCO CON RICHIESTA NUMERO ALL'UTENTE
 var userLost = false;
 var userChoice = parseInt(prompt("Inserisci un numero tra 1 e 100"));
-while (camp.length > playerPossibilities && !userLost){
+while (userChoiceList.length < playerPossibilities && !userLost){
     userChoice = parseInt(prompt("Inserisci un numero tra 1 e 100"));
-        if ((userChoice > 100) || (userChoice < 1) || (userChoiceList.includes(userChoice))) {
+        if ((userChoice > 100) || (userChoice < 1) || (isInArray(userChoice, userChoiceList))) {
             alert("Errore, numero non valido");
     }   else  {
-        if ((bombsList.includes(userChoice))) {
+        if (isInArray(userChoice, bombsList)) {
             userLost = true;
     }   else {
         userChoiceList.push(userChoice);
-        alert("HAI GUADAGNATO " + userChoice.length + " PUNTI");
     }
   }
 }
@@ -104,4 +102,17 @@ function isNumber(num) {
     }   else {
         return true;
     }
+}
+
+//FUNZIONE ARRAY
+function isInArray(needle, arr) {
+    var found = false;
+    var i = 0;
+    while (!found && i < arr.length) {
+        if (needle === arr[i]) {
+            found = true;
+        }
+        i++
+    }
+    return found;
 }
