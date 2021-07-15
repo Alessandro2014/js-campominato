@@ -54,7 +54,6 @@ switch (choiceLevel.toLowerCase().trim()){
     default:
     camp = 100;
 }
-var playerPossibilities = (camp - bombs)
 
 
 //CICLO WHILE PER INSERIRE 16 NUMERI RANDOM NELL'ARREY
@@ -66,11 +65,9 @@ while (bombsList.length < bombs) {
     }
 }
 
-
-
-
 console.table(bombsList);
 
+var playerPossibilities = (camp - bombs)
 
 // CHIEDERE NUMERO ALL'UTENTE
 while ((camp < playerPossibilities) && (!bombsList.includes(userChoice))){
@@ -89,7 +86,29 @@ while ((camp < playerPossibilities) && (!bombsList.includes(userChoice))){
 console.table(userChoiceList);
 
 // UTILS
+
+//FUNZIONE PER VERIFICARE CHE SIA UN NUMERO
 function randomNumber(min, max) {
     max++;
     return Math.floor(Math.random() * (max - min) + min);
   }
+
+//FUNZIONE PER RICHIEDERE UN NUMERO
+function getUserNumber(min, max) {
+    var number;
+    do {
+        number = prompt("Inserisci un numero tra " + min + "e" + max);
+    } while (!isNumber(number) || number < min || number > max);
+
+    return parseInt(number);
+}
+
+// FUNZIONE VERIFICA SE E' UN NUMERO
+function isNumber(num) {
+    if(!num || isNaN(num) || num.trim() === ""){
+        return false;
+    }   else {
+        return true;
+    }
+}
+
